@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sflistView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:local="clr-namespace:MauiExpander"
+             xmlns:expander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+             x:Class="MauiExpander.MainPage">
+    <ContentPage.BindingContext>
+        <local:ViewModelClass/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <sflistView:SfListView x:Name="listView" ItemsSource="{Binding InboxInfo}" ItemSpacing="1" AutoFitMode="DynamicHeight">
+            <sflistView:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <expander:SfExpander HeaderIconPosition="Start" IsExpanded="{Binding IsExpanded}" >
+                        <expander:SfExpander.Header >
+                            <Grid Padding="10,0,0,0" HeightRequest="100">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{Binding Title}" VerticalOptions="Center" Grid.Row="0" />
+                                    <Label Grid.Row="1" Text="{Binding Subject}" FontSize="16" VerticalOptions="Center"/>
+                                </Grid>
+                                <Label HorizontalOptions="EndAndExpand" Padding="5,10,5,10" Grid.Column="1" LineBreakMode="NoWrap" Text="{Binding Date}" FontSize="12"/>
+                            </Grid>
+                        </expander:SfExpander.Header>
+                        <expander:SfExpander.Content>
+                            <Grid HeightRequest="100" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.6*"/>
+                                    <RowDefinition Height="0.4*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Description}" VerticalOptions="Center"/>
+                                <Grid Grid.Row="1">
+                                    <Button x:Name="save" Text="Mark as read" Command="{Binding Path=BindingContext.ReadCommand, Source={x:Reference listView}}" CommandParameter="{Binding .}" FontSize="15" BackgroundColor="#28abb9" CornerRadius="5" TextColor="White"/>
+                                    <Button x:Name="delete" Text="Delete" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference listView}}" CommandParameter="{Binding .}" Grid.Column="1" FontSize="15" BackgroundColor="#ea2c62" CornerRadius="5" TextColor="White"/>
+                                </Grid>
+                            </Grid>
+                        </expander:SfExpander.Content>
+                    </expander:SfExpander>
+                </DataTemplate>
+            </sflistView:SfListView.ItemTemplate>
+        </sflistView:SfListView>
+    </ContentPage.Content>
+</ContentPage>
